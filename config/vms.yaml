@@ -1,0 +1,16 @@
+---
+vms:
+
+  - box: bento/centos-7
+    hostname: master.vagrant
+    name: master
+    roles:
+      - puppetserver
+      - base
+
+  - box: bento/centos-7
+    hostname: agent1.vagrant
+    name: agent1
+    roles:
+      - puppet-agent
+      - base

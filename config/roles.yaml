@@ -1,0 +1,35 @@
+---
+roles:
+
+  puppetserver:
+    providers:
+      - type: virtualbox
+        memory: 2048
+        cpus: 2
+        customize:
+          - [modifyvm, !ruby/sym id, '--ioapic', 'on']
+    provisioners:
+      - {type: shell, inline: 'rpm -q puppet5-release || rpm -Uvh https://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm'}
+      - {type: shell, inline: 'rpm -q puppetserver || yum install -y puppetserver'}
+      - {type: shell, path: 'tune_puppetserver.sh'}
+      - {type: shell, inline: 'systemctl is-enabled puppetserver || systemctl enable puppetserver'}
+      - {type: shell, inline: 'puppet config set server $(hostname -f) --section main'}
+      - {type: shell, inline: 'puppet config set certname $(hostname -f) --section main'}
+
+  puppet-agent:
+    provisioners:
+      - {type: shell, inline: 'rpm -q puppet5-release || rpm -Uvh https://yum.puppet.com/puppet5/puppet5-release-el-7.noarch.rpm'}
+      - {type: shell, inline: 'rpm -q puppet-agent || yum install -y puppet-agent'}
+      - {type: shell, inline: 'puppet config set server master.vagrant --section main'}
+      - {type: shell, inline: 'puppet config set certname $(hostname -f) --section main'}
+
+  base:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    providers:
+      - type: virtualbox
+        linked_clone: true
+    provisioners:
+      - {type: hosts, sync_hosts: true}
+      - {type: shell, inline: 'rpm -q epel-release || yum install -y epel-release'}
+      - {type: shell, inline: 'rpm -q vim-enhanced htop jq || yum install -y vim htop jq'}
