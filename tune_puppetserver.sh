@@ -2,16 +2,6 @@
 
 CHANGES_MADE=0
 
-# Use jruby9k
-if ! grep -q 'JRUBY_JAR="/opt/puppetlabs/server/apps/puppetserver/jruby-9k.jar"' /etc/sysconfig/puppetserver ;then
-
-  echo "puppetserver: Enabling jRuby9k"
-  echo '# Use jRuby 9k' >> /etc/sysconfig/puppetserver
-  echo 'JRUBY_JAR="/opt/puppetlabs/server/apps/puppetserver/jruby-9k.jar"' >> /etc/sysconfig/puppetserver
-
-  ((CHANGES_MADE++))
-fi
-
 # Use 512mb of memory
 if ! grep -q 'JAVA_ARGS="-Xms512m -Xmx512m' /etc/sysconfig/puppetserver; then
 
