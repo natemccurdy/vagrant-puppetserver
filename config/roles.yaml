@@ -9,12 +9,7 @@ roles:
         customize:
           - [modifyvm, !ruby/sym id, '--ioapic', 'on']
     provisioners:
-      - {type: shell, inline: 'rpm -q puppet6-release || sudo rpm -Uvh https://yum.puppet.com/puppet6/puppet6-release-el-7.noarch.rpm'}
-      - {type: shell, inline: 'rpm -q puppetserver || yum install -y puppetserver'}
-      - {type: shell, path: 'tune_puppetserver.sh'}
-      - {type: shell, inline: 'systemctl is-enabled puppetserver || systemctl enable puppetserver'}
-      - {type: shell, inline: 'puppet config set server $(hostname -f) --section main'}
-      - {type: shell, inline: 'puppet config set certname $(hostname -f) --section main'}
+      - {type: shell, path: 'bootstrap_puppetserver.sh'}
 
   puppet-agent:
     provisioners:
