@@ -1,13 +1,16 @@
 ---
 vms:
 
+  # Open-source Puppetserver master
   - box: bento/centos-7
     hostname: server7.vagrant
     name: server7
     roles:
+      - symlink-puppet-code-to-production
       - puppetserver
       - base
 
+  # Open-source Puppet agent
   - box: bento/centos-7
     hostname: agent7.vagrant
     name: agent7
