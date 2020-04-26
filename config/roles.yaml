@@ -9,7 +9,7 @@ roles:
         customize:
           - [modifyvm, !ruby/sym id, '--ioapic', 'on']
     provisioners:
-      - {type: shell, inline: 'rpm -q puppet6-release || sudo rpm -Uvh https://yum.puppet.com/puppet6/puppet6-release-el-7.noarch.rpm'}
+      - {type: shell, inline: 'v=$(hostname | grep -o -P "\d"); rpm -q puppet${v}-release || rpm -Uvh https://yum.puppet.com/puppet${v}/puppet${v}-release-el-7.noarch.rpm'}
       - {type: shell, inline: 'rpm -q puppetserver || yum install -y puppetserver'}
       - {type: shell, path: 'tune_puppetserver.sh'}
       - {type: shell, inline: 'systemctl is-enabled puppetserver || systemctl enable puppetserver'}
@@ -18,9 +18,9 @@ roles:
 
   puppet-agent:
     provisioners:
-      - {type: shell, inline: 'rpm -q puppet6-release || rpm -Uvh https://yum.puppet.com/puppet6/puppet6-release-el-7.noarch.rpm'}
+      - {type: shell, inline: 'v=$(hostname | grep -o -P "\d"); rpm -q puppet${v}-release || rpm -Uvh https://yum.puppet.com/puppet${v}/puppet${v}-release-el-7.noarch.rpm'}
       - {type: shell, inline: 'rpm -q puppet-agent || yum install -y puppet-agent'}
-      - {type: shell, inline: 'puppet config set server master.vagrant --section main'}
+      - {type: shell, inline: 'v=$(hostname | grep -o -P "\d"); puppet config set server server${v}.vagrant --section main'}
       - {type: shell, inline: 'puppet config set certname $(hostname -f) --section main'}
 
   base:
