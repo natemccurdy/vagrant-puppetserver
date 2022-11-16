@@ -20,9 +20,9 @@ roles:
       - {type: shell, inline: '[ -f /opt/puppetlabs/bin/r10k ] || ln -s /opt/puppetlabs/puppet/bin/r10k /opt/puppetlabs/bin/r10k'}
       - type: shell
         inline: |
-          if puppet config print autosign --section master | grep -q -v '^true$'; then
+          if puppet config print autosign --section server | grep -q -v '^true$'; then
             echo 'Enabling autosigning'
-            puppet config set autosign true --section master && systemctl reload puppetserver
+            puppet config set autosign true --section server && systemctl reload puppetserver
           fi
 
   puppet-agent:
