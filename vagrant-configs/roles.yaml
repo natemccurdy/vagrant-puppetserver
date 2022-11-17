@@ -16,7 +16,7 @@ roles:
       - {type: shell, inline: 'puppet config set server $(hostname -f) --section main'}
       - {type: shell, inline: 'puppet config set certname $(hostname -f) --section main'}
       - {type: shell, inline: 'echo "Defaults   secure_path = /sbin:/bin:/usr/bin:/usr/sbin:/opt/puppetlabs/bin" > /etc/sudoers.d/puppetagent'}
-      - {type: shell, inline: '/opt/puppetlabs/puppet/bin/gem install r10k'}
+      - {type: shell, inline: '/opt/puppetlabs/puppet/bin/gem install --no-doc r10k'}
       - {type: shell, inline: '[ -f /opt/puppetlabs/bin/r10k ] || ln -s /opt/puppetlabs/puppet/bin/r10k /opt/puppetlabs/bin/r10k'}
       - type: shell
         inline: |
