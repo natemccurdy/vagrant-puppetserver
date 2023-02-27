@@ -9,9 +9,8 @@ roles:
         customize:
           - [modifyvm, !ruby/sym id, '--ioapic', 'on']
     provisioners:
-      - {type: shell, inline: 'v=$(hostname | grep -o -P "\d"); rpm -q puppet${v}-release || rpm -Uvh https://yum.puppet.com/puppet${v}/puppet${v}-release-el-7.noarch.rpm'}
-      - {type: shell, inline: 'rpm -q puppetserver || yum install -y puppetserver'}
-      - {type: shell, path: 'tune_puppetserver.sh'}
+      - {type: shell, path: 'scripts/install_puppetserver_debian.sh'}
+      - {type: shell, path: 'scripts/tune_puppetserver.sh'}
       - {type: shell, inline: 'systemctl is-enabled puppetserver || systemctl enable puppetserver'}
       - {type: shell, inline: 'puppet config set server $(hostname -f) --section main'}
       - {type: shell, inline: 'puppet config set certname $(hostname -f) --section main'}
@@ -19,8 +18,7 @@ roles:
 
   puppet-agent:
     provisioners:
-      - {type: shell, inline: 'v=$(hostname | grep -o -P "\d"); rpm -q puppet${v}-release || rpm -Uvh https://yum.puppet.com/puppet${v}/puppet${v}-release-el-7.noarch.rpm'}
-      - {type: shell, inline: 'rpm -q puppet-agent || yum install -y puppet-agent'}
+      - {type: shell, path: 'scripts/install_puppetagent_debian.sh'}
       - {type: shell, inline: 'v=$(hostname | grep -o -P "\d"); puppet config set server server${v}.vagrant --section main'}
       - {type: shell, inline: 'puppet config set certname $(hostname -f) --section main'}
       - {type: shell, inline: 'echo "Defaults   secure_path = /sbin:/bin:/usr/bin:/usr/sbin:/opt/puppetlabs/bin" > /etc/sudoers.d/puppetagent'}
@@ -33,5 +31,5 @@ roles:
         linked_clone: true
     provisioners:
       - {type: hosts, sync_hosts: true}
-      - {type: shell, inline: 'rpm -q epel-release || yum install -y epel-release'}
-      - {type: shell, inline: 'rpm -q vim-enhanced htop jq || yum install -y vim htop jq'}
+      - {type: shell, inline: 'apt-get update -y'}
+      - {type: shell, inline: 'dpkg -s vim htop jq || apt-get install -y vim htop jq'}

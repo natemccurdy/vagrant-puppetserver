@@ -7,4 +7,4 @@ AutoNetwork.default_pool = '192.168.56.0/21'
 
 Vagrant.configure('2') { |config| config.vagrant.plugins = 'oscar' }
 
-Vagrant.configure('2', &Oscar.run(File.expand_path('../config', __FILE__))) if defined? Oscar
+Vagrant.configure('2', &Oscar.run(File.expand_path('config', __dir__))) if defined? Oscar

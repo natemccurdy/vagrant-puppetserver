@@ -1,28 +1,28 @@
 ---
 vms:
 
-  - box: bento/centos-7
+  - box: debian/bullseye64
     hostname: server7.vagrant
     name: server7
     roles:
       - puppetserver
       - base
 
-  - box: bento/centos-7
+  - box: debian/bullseye64
     hostname: agent7.vagrant
     name: agent7
     roles:
       - puppet-agent
       - base
 
-  - box: bento/centos-7
+  - box: debian/bullseye64
     hostname: server6.vagrant
     name: server6
     roles:
       - puppetserver
       - base
 
-  - box: bento/centos-7
+  - box: debian/bullseye64
     hostname: agent6.vagrant
     name: agent6
     roles:
